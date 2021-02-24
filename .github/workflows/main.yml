@@ -6,6 +6,8 @@ on:
       - master
       - main
       - gh-pages
+  
+  # this is for manual triggering of the workflow
   workflow_dispatch:
     inputs:
       logLevel:
@@ -45,6 +47,7 @@ jobs:
       - name: build public dir with docker image
         run: docker run -v $(pwd)/public:/app/public -v $(pwd)/data:/app/data -v $(pwd)/.env.production:/app/.env.production skohub/skohub-vocabs-docker:latest
 
+      # this creates the gh-pages branch, because publish_branch default value = 'gh-pages'
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
