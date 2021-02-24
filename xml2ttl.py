@@ -11,10 +11,8 @@ SchemeData = namedtuple("SchemeData", ["id", "label", "definition"])
 LangString = namedtuple("LangString", ["value", "lang"])
 
 xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
-
 if(len(xml_file) != 1):
-    raise ValueError("There should only be one xml file in the directory")
-
+    raise ValueError("There should be exactly one xml file in the directory")
 filename = xml_file[0]
 
 output_folder = Path("./data")
