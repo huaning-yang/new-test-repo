@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MDCat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/iqb-berlin/mdc-schemadefinition/master/mdc.xsd"
+       id="DOI:10.5159/IQB_MDR_Core_v1"
+       version="1.0.0"
+       versionhistory="DOI:10.5159/IQB_MDR_Core_VH"
+>
+
+  <Label xml:lang="de">Katalog für Metadaten eines IQB-Katalogs bzw. IQB-Metadatendefinitionen</Label>
+  <Label xml:lang="en">Catalog for metadata used in IQB-catalogs or IQB-metadata definitions</Label>
+
+  <Description xml:lang="de">
+    Über diese Definitionen erfolgt vor allem die Filterung von Merkmalen, damit bestimmte Merkmale nur
+    für bestimmte Anwendungsfälle bzw. Datenobjekte bereitgestellt werden.
+  </Description>
+
+  <Owner xml:lang="de">IQB - Institut zur Qualitätsentwicklung im Bildungswesen</Owner>
+  <Owner xml:lang="en">IQB - Institute for Educational Quality Improvement</Owner>
+  <License>MIT</License>
+
+  <MDDef id="1" type="listmultiselect">
+    <Label xml:lang="de">Inhaltlicher Bezug</Label>
+    <Label xml:lang="en">Subject</Label>
+    <Value id="1">
+      <Label xml:lang="de">Deutsch Primarstufe</Label>
+    </Value>
+    <Value id="2">
+      <Label xml:lang="de">Deutsch Sek1</Label>
+    </Value>
+    <Value id="3">
+      <Label xml:lang="de">Deutsch VERA6</Label>
+    </Value>
+    <Value id="4">
+      <Label xml:lang="de">Englisch Sek1</Label>
+    </Value>
+    <Value id="5">
+      <Label xml:lang="de">Forschungsdaten</Label>
+    </Value>
+    <Value id="6">
+      <Label xml:lang="de">Französisch Sek1</Label>
+    </Value>
+    <Value id="7">
+      <Label xml:lang="de">Mathematik Primarstufe</Label>
+    </Value>
+    <Value id="8">
+      <Label xml:lang="de">Mathematik Sek1</Label>
+    </Value>
+    <Value id="9">
+      <Label xml:lang="de">Naturwissenschaften Sek1</Label>
+    </Value>
+  </MDDef>
+  <MDDef id="2" type="listmultiselect">
+    <Label xml:lang="de">Gültigkeitsbereich</Label>
+    <Label xml:lang="en">Scope</Label>
+    <Value id="1">
+      <Label xml:lang="de">Antrag</Label>
+    </Value>
+    <Value id="2">
+      <Label xml:lang="de">Antragsteller/in</Label>
+    </Value>
+    <Value id="3">
+      <Label xml:lang="de">Aufbereitung/Bewertung</Label>
+    </Value>
+    <Value id="4">
+      <Label xml:lang="de">Aufgabe</Label>
+    </Value>
+    <Value id="5">
+      <Label xml:lang="de">Datensatz</Label>
+    </Value>
+    <Value id="6">
+      <Label xml:lang="de">Erhebung</Label>
+    </Value>
+    <Value id="7">
+      <Label xml:lang="de">Fall</Label>
+    </Value>
+    <Value id="8">
+      <Label xml:lang="de">Freigabe</Label>
+    </Value>
+    <Value id="9">
+      <Label xml:lang="de">Instrument</Label>
+    </Value>
+    <Value id="10">
+      <Label xml:lang="de">Kontakt</Label>
+    </Value>
+    <Value id="11">
+      <Label xml:lang="de">Item</Label>
+    </Value>
+    <Value id="12">
+      <Label xml:lang="de">Person</Label>
+    </Value>
+    <Value id="13">
+      <Label xml:lang="de">Projekt</Label>
+    </Value>
+    <Value id="14">
+      <Label xml:lang="de">Studie</Label>
+    </Value>
+    <Value id="15">
+      <Label xml:lang="de">Antragsinhalt</Label>
+    </Value>
+  </MDDef>
+</MDCat>
