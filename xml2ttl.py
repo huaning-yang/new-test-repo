@@ -6,14 +6,16 @@ from rdflib.namespace import DCTERMS, RDF, SKOS
 from pathlib import Path
 import os
 
-ConceptScheme = namedtuple("ConceptScheme", ["conceptScheme", "concepts"])
+ConceptScheme = namedtuple("ConceptScheme", ["conceptScheme", "concepts", "metadata"])
 SchemeData = namedtuple("SchemeData", ["id", "label", "definition"])
 LangString = namedtuple("LangString", ["value", "lang"])
+MetaString = namedtuple("MetaString",["cat", "d", "value"])
 
-xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
-if(len(xml_file) != 1):
-    raise ValueError("There should be exactly one xml file in the directory")
-filename = xml_file[0]
+#xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
+#if(len(xml_file) != 1):
+#    raise ValueError("There should be exactly one xml file in the directory")
+#filename = xml_file[0]
+filename = "mdc-educational-standards.xml"
 
 output_folder = Path("./data")
 if not output_folder.exists():
@@ -25,7 +27,13 @@ def getValues(entry):
         value = entry.text
         return LangString(value, lang)
     else:
-        return 
+        return
+def getMetaData(entry):
+    if entry is not None:
+        d = entry.get("def")
+        cat = entry.get("cat")
+        value = entry.text
+        return MetaString(cat,d, value)
 
 def parseXml():
     tree = etree.parse(filename)
@@ -39,6 +47,11 @@ def parseXml():
         # get label
         label = getValues(item.find("Label"))
         definition = getValues(item.find("Description"))
+        metadata = item.find("MDDefMetadata")
+        i = 0
+        for m in metadata:
+            meta = getMetaData(m)
+
         # get values
         # <Value id="1"><Label xml:lang="de">K1</Label><Description xml:lang="de">Mathematisch argumentieren</Description></Value>
         conceptScheme = SchemeData(_id, label, definition)
@@ -50,7 +63,7 @@ def parseXml():
             label = getValues(value.find("Label"))
             definition = getValues(value.find("Description"))
             concepts.append(SchemeData(_id, label, definition))
-        conceptSchemes.append(ConceptScheme(conceptScheme=conceptScheme, concepts=concepts))
+        conceptSchemes.append(ConceptScheme(conceptScheme=conceptScheme, concepts=concepts,metadata=meta))
 
     return conceptSchemes
 
@@ -58,6 +71,7 @@ def parseXml():
 def buildGraph(cs):
     conceptScheme = cs.conceptScheme
     concepts = cs.concepts
+    metadata = cs.metadata
 
     g = Graph()
     base_url = URIRef("http://example.org/iqb/cs_" + conceptScheme.id + "/")
@@ -67,6 +81,10 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
+        g.add((base_url, DCTERMS.references, Literal(metadata.cat)))
+        g.add((base_url, DCTERMS.references, Literal(metadata.d)))
+        g.add((base_url, DCTERMS.references, Literal(metadata.value)))
+        g.add((base_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
 
     for concept in concepts:
         concept_url = base_url + concept.id
