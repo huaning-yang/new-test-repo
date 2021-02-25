@@ -82,11 +82,11 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
-        #g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
-        #g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
-        #g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
+        
         for md in metadata:
-            g.add((base_url, SKOS.related, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value, lang="de")))
+            g.add((base_url, DCTERMS.description, Literal(md.cat, lang="de")))
+            g.add((base_url, DCTERMS.description, Literal(md.d, lang="de")))
+            g.add((base_url, DCTERMS.description, Literal(md.value, lang="de")))
         
         g.add((base_url, SKOS.relatedMatch, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html", lang="de")))
 
@@ -96,9 +96,6 @@ def buildGraph(cs):
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
-        for md in metadata:
-            g.add((base_url, SKOS.definition, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
-            g.add((concept_url, SKOS.definition, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
         # add topConceptOf
         g.add((concept_url, SKOS.topConceptOf, base_url))
         g.add((base_url, SKOS.hasTopConcept, concept_url))
