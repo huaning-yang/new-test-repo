@@ -9,7 +9,7 @@ import os
 ConceptScheme = namedtuple("ConceptScheme", ["conceptScheme", "concepts", "metadata"])
 SchemeData = namedtuple("SchemeData", ["id", "label", "definition"])
 LangString = namedtuple("LangString", ["value", "lang"])
-MetaString = namedtuple("MetaString",["cat", "d", "value"])
+MetaString = namedtuple("MetaString",["cat", "def", "value"])
 
 #xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
 #if(len(xml_file) != 1):
@@ -47,8 +47,8 @@ def parseXml():
         # get label
         label = getValues(item.find("Label"))
         definition = getValues(item.find("Description"))
+
         metadata = item.find("MDDefMetadata")
-        i = 0
         for m in metadata:
             meta = getMetaData(m)
 
@@ -81,9 +81,9 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
-        g.add((base_url, DCTERMS.references, Literal(metadata.cat)))
-        g.add((base_url, DCTERMS.references, Literal(metadata.d)))
-        g.add((base_url, DCTERMS.references, Literal(metadata.value)))
+        g.add((base_url, DCTERMS.references, Literal("cat " + metadata.cat)))
+        g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
+        g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
         g.add((base_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
 
     for concept in concepts:
