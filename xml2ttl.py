@@ -96,6 +96,9 @@ def buildGraph(cs):
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
+        for md in metadata:
+            g.add((base_url, SKOS.definition, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
+            g.add((concept_url, SKOS.definition, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
         # add topConceptOf
         g.add((concept_url, SKOS.topConceptOf, base_url))
         g.add((base_url, SKOS.hasTopConcept, concept_url))
