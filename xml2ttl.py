@@ -94,9 +94,6 @@ def buildGraph(cs):
         concept_url = base_url + concept.id
         g.add((concept_url, RDF.type, SKOS.Concept))
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
-        for md in metadata:
-            g.add((concept_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
-        g.add((concept_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
         # add topConceptOf
