@@ -9,13 +9,12 @@ import os
 ConceptScheme = namedtuple("ConceptScheme", ["conceptScheme", "concepts", "metadata"])
 SchemeData = namedtuple("SchemeData", ["id", "label", "definition"])
 LangString = namedtuple("LangString", ["value", "lang"])
-MetaString = namedtuple("MetaString",["cat", "def", "value"])
+MetaString = namedtuple("MetaString",["cat", "d", "value"])
 
-#xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
-#if(len(xml_file) != 1):
-#    raise ValueError("There should be exactly one xml file in the directory")
-#filename = xml_file[0]
-filename = "mdc-educational-standards.xml"
+xml_file = [f for f in os.listdir('.') if f.endswith('.xml')]
+if(len(xml_file) != 1):
+    raise ValueError("There should be exactly one xml file in the directory")
+filename = xml_file[0]
 
 output_folder = Path("./data")
 if not output_folder.exists():
