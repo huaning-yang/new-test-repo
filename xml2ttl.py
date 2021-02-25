@@ -51,8 +51,6 @@ def parseXml():
         md = []
         for m in metadata:
             md.append(getMetaData(m))
-        
-
         # get values
         # <Value id="1"><Label xml:lang="de">K1</Label><Description xml:lang="de">Mathematisch argumentieren</Description></Value>
         conceptScheme = SchemeData(_id, label, definition)
