@@ -81,7 +81,7 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.creator, Literal("IQB - Institut zur Qualitätsentwicklung im Bildungswesen", lang="de")))
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
-        g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
+        g.add((base_url, SKOS.related, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
         #g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
         #g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
         #g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
@@ -94,9 +94,6 @@ def buildGraph(cs):
         concept_url = base_url + concept.id
         g.add((concept_url, RDF.type, SKOS.Concept))
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
-        for md in metadata:
-            g.add((concept_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
-        g.add((concept_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
         # add topConceptOf
