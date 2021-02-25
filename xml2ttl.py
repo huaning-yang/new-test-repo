@@ -80,15 +80,17 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
-        g.add((base_url, DCTERMS.references, Literal("cat " + metadata.cat)))
-        g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
-        g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
+        g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
+        #g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
+        #g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
         g.add((base_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
 
     for concept in concepts:
         concept_url = base_url + concept.id
         g.add((concept_url, RDF.type, SKOS.Concept))
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
+        g.add((concept_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
+        g.add((concept_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
         # add topConceptOf
