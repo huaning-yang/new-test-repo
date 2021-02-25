@@ -48,8 +48,10 @@ def parseXml():
         definition = getValues(item.find("Description"))
 
         metadata = item.find("MDDefMetadata")
+        md = []
         for m in metadata:
-            meta = getMetaData(m)
+            md.append(getMetaData(m))
+        
 
         # get values
         # <Value id="1"><Label xml:lang="de">K1</Label><Description xml:lang="de">Mathematisch argumentieren</Description></Value>
@@ -62,7 +64,7 @@ def parseXml():
             label = getValues(value.find("Label"))
             definition = getValues(value.find("Description"))
             concepts.append(SchemeData(_id, label, definition))
-        conceptSchemes.append(ConceptScheme(conceptScheme=conceptScheme, concepts=concepts,metadata=meta))
+        conceptSchemes.append(ConceptScheme(conceptScheme=conceptScheme, concepts=concepts,metadata=md))
 
     return conceptSchemes
 
@@ -80,22 +82,28 @@ def buildGraph(cs):
     g.add((base_url, DCTERMS.title, Literal(conceptScheme.label.value, lang=conceptScheme.label.lang )))
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
-        g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
+        #g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
         #g.add((base_url, DCTERMS.references, Literal("def " + metadata.d)))
         #g.add((base_url, DCTERMS.references, Literal("value " + metadata.value)))
+        for md in metadata:
+            g.add((base_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
+        
         g.add((base_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
 
     for concept in concepts:
         concept_url = base_url + concept.id
         g.add((concept_url, RDF.type, SKOS.Concept))
         g.add((concept_url, SKOS.prefLabel, Literal(concept.label.value, lang=concept.label.lang)))
-        g.add((concept_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + metadata.cat + " Mit den Definitionen: " + metadata.d +" Und den Werten: " + metadata.value)))
+        for md in metadata:
+            g.add((concept_url, DCTERMS.references, Literal("Folgender Metadatenkatalog wurde verwendet: " + md.cat + " Mit den Definitionen: " + md.d +" Und den Werten: " + md.value)))
         g.add((concept_url, DCTERMS.identifier, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html")))
         if concept.definition:
             g.add((concept_url, SKOS.definition, Literal(concept.definition.value, lang=concept.definition.lang)))
         # add topConceptOf
         g.add((concept_url, SKOS.topConceptOf, base_url))
         g.add((base_url, SKOS.hasTopConcept, concept_url))
+    
+    
     
     g.bind("skos", SKOS)
     g.bind("dct", DCTERMS)
