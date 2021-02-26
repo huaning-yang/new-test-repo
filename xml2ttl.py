@@ -71,6 +71,14 @@ def buildGraph(cs):
     conceptScheme = cs.conceptScheme
     concepts = cs.concepts
     metadata = cs.metadata
+    cat = 0
+    d = 0
+    value = 0
+    for md in metadata:
+        cat = md.cat
+        d = md.d
+        value = md.value
+
 
     g = Graph()
     base_url = URIRef("http://example.org/iqb/cs_" + conceptScheme.id + "/")
@@ -81,8 +89,8 @@ def buildGraph(cs):
     if conceptScheme.definition:
         g.add((base_url, DCTERMS.description, Literal(conceptScheme.definition.value, lang=conceptScheme.definition.lang)))
         
-        for md in metadata:
-            g.add((base_url, SKOS.definition, Literal("cat: " + md.cat + " Def:" + md.d + " Value:" + md.value, lang="de")))
+        
+        g.add((base_url, SKOS.definition, Literal("cat: " + cat + " Def:" + d + " Value:" + value, lang="de")))
         
         g.add((base_url, SKOS.relatedMatch, Literal("https://huaning-yang.github.io/test-repo-core/index.de.html", lang="de")))
 
